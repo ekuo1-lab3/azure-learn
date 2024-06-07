@@ -19,6 +19,7 @@ jobs:
       uses: azure/arm-deploy@v1
       with:
         scope: subscription
+        region: "australia east"
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         template: ./ARM/rg.json
         
