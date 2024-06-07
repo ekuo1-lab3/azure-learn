@@ -1,0 +1,29 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {"rgLocation": {
+        "type": "string",
+        "defaultValue": "Australia East",
+        "metadata": {
+            "description": "resource group location"
+        }
+    },
+    "rgName": {
+        "type": "string",
+        "defaultValue": "vm-rg",
+        "metadata": {
+            "description": "resource group name"
+        }
+    }},
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "name": "[parameters('rgName')]",
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "2022-09-01",
+            "location": "[parameters('rgLocation')]"
+        }
+    ],
+    "outputs": {}
+}
