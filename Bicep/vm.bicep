@@ -131,5 +131,3 @@ resource ubuntuVM 'Microsoft.Compute/virtualMachines@2020-12-01' = {
     }
   }
 }
-
-output hostname string = publicIPAddress.properties.ipAddress
