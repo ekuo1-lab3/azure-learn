@@ -18,6 +18,8 @@ jobs:
     - name: Run ARM deploy
       uses: azure/arm-deploy@v1
       with:
+        scope: subscription
+        region: "australia east"
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         template: ./ARM/rg.json
         
@@ -25,6 +27,7 @@ jobs:
     - name: Run ARM deploy
       uses: azure/arm-deploy@v1
       with:
+        scope: resourcegroup
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: vm-rg
         template: ./ARM/vm.json
