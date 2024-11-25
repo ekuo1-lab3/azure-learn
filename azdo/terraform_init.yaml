@@ -1,0 +1,36 @@
+steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: $(WORKSPACE_SERVICE_CONNECTION_NAME)  # Replace with your service connection name
+    scriptType: 'bash'  # Use 'powershell' if running in Windows environment
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+
+      # Setup git authentication, required by terraform init
+      git config --global user.name "azdo"
+      git config --global user.email "azdo@no-reply.com"
+      git config --global http.extraHeader "AUTHORIZATION: bearer $(System.AccessToken)"
+
+      echo "##[group]Terraform backend details"
+
+      echo "Resource Group: $(TFSTATE_resource_group_name)"
+      echo "Storage Account: $(TFSTATE_storage_account_name)"
+      echo "Container: $(TFSTATE_container_name)"
+      echo "State file: $(TFSTATE_filename)"
+
+      echo "##[endgroup]"
+      echo ""
+
+      # Print the current Azure account to verify login
+      az account show
+
+      cd terraform
+
+      terraform init -reconfigure \
+        -backend-config="resource_group_name=$(TFSTATE_resource_group_name)" \
+        -backend-config="access_key=$(TFSTATE_ACCESS_KEY)" \
+        -backend-config="storage_account_name=$(TFSTATE_storage_account_name)" \
+        -backend-config="container_name=$(TFSTATE_container_name)" \
+        -backend-config="key=$(TFSTATE_filename)"
+
+      terraform state list
